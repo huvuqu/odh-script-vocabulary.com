@@ -49,7 +49,9 @@ class enfr_Cambridge {
 
     async findCambridge(word) {
         if (!word) return null;
-
+        let notes = [];
+        let expression = word;
+        let reading = 'reading';
         // let base = 'https://dictionary.cambridge.org/search/english-french/direct/?q=';
         // let url = base + encodeURIComponent(word);
         // let doc = '';
@@ -77,53 +79,64 @@ class enfr_Cambridge {
         // let css = this.renderCSS();
         // definition = 'dummy test'
         // return definition ? css + definition : null;
-        
+        let extrainfo = 'extrainfo';
+        audios[0] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=1`;
+        audios[1] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=2`;
+
         const base = 'https://www.vocabulary.com/dictionary/';
         const url = base + encodeURIComponent(word);
         let doc = '';
         try {
             let data = await api.fetch(url);
             let parser = new DOMParser();
-            doc = parser.parseFromString(data, "text/html");
+                doc = parser.parseFromString(data, "text/html");
         } catch (err) {
             return null;
         }
-        let definition = '';
-        const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
 
-        for (const content of contents) {
-            definition += content.innerHTML;
-        }
+        const desc_short =  document.querySelector('p.short').innerText;
+        const desc_long =  document.querySelector('p.long').innerText;
+
+        let definitions = [ 'test', 'test2' ];
+        // const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
+        //
+        // for (const content of contents) {
+        //     // this.removeTags(content, '.expand-text');
+        //     // this.removeTags(content, '.hide-text');
+        //     // this.removeTags(content, '.expand-text');
+        //     // definition += content.innerHTML;
+        //     let pos = content.querySelector('div.pos-icon').title
+        //     pos = pos ? `<span class="pos">${pos}</span>` : '';
+        //
+        // }
+        // let css = this.renderCSS();
+        // console.log(definition)
+
         let css = this.renderCSS();
-        console.log(definition)
-
-        return definition ? css + definition : null;
+        notes.push({
+            css,
+            expression,
+            reading,
+            extrainfo,
+            definitions,
+            audios
+        });
     }
 
     renderCSS() {
         let css = `
             <style>
-            .entry-body__el{margin-bottom:10px;}
-            .head2{font-size: 1.2em;font-weight:bold;}
-            .pos-header{border-bottom: 1px solid;}
-            .head3 {display:none;}
-            .posgram {font-size: 0.8em;background-color: #959595;color: white;padding: 2px 5px;border-radius: 3px;}
-            .epp-xref::after {content: ")";}
-            .epp-xref::before {content: "(";}
-            .def-block, .phrase-block {
-                /*border: 1px solid;*/
-                /*border-color: #e5e6e9 #dfe0e4 #d0d1d5;*/
-                border-radius: 3px;
-                padding: 5px;
-                margin: 5px 0;
-                background-color: #f6f6f6;
-            }
-            .phrase-block .def-block{border: initial;padding: initial;}
-            p.def-head {margin: auto;}
-            .phrase-head {vertical-align: middle;color: #1683ea;font-weight: bold;}
-            .trans {color: #5079bb;}
+                span.star {color: #FFBB00;}
+                span.cet  {margin: 0 3px;padding: 0 3px;font-weight: normal;font-size: 0.8em;color: white;background-color: #5cb85c;border-radius: 3px;}
+                span.pos  {text-transform:lowercase; font-size:0.9em; margin-right:5px; padding:2px 4px; color:white; background-color:#0d47a1; border-radius:3px;}
+                span.tran {margin:0; padding:0;}
+                span.eng_tran {margin-right:3px; padding:0;}
+                span.chn_tran {color:#0d47a1;}
+                ul.sents {font-size:0.8em; list-style:square inside; margin:3px 0;padding:5px;background:rgba(13,71,161,0.1); border-radius:5px;}
+                li.sent  {margin:0; padding:0;}
+                span.eng_sent {margin-right:5px;}
+                span.chn_sent {color:#0d47a1;}
             </style>`;
-
         return css;
     }
 }
