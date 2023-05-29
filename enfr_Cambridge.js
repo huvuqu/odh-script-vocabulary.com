@@ -101,7 +101,9 @@ class enen_Vocabulary{
         
         const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
         for (const content of contents) {
-            const innerText = content.children[0].innerText;
+            let innerText = content.children[0].innerText;
+            innerText = innerText.trim();
+
             let words = innerText.split(' ');
             let pos = words[0];
             let tran = words.slice(1).join(' ');
