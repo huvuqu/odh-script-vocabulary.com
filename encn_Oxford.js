@@ -33,25 +33,26 @@ class encn_Oxford {
 
     async findTerm(word) {
         if (!word) return null;
-                const base = 'https://www.vocabulary.com/dictionary/';
-        const url = base + encodeURIComponent(word);
-        let doc = '';
-        try {
-            let data = await api.fetch(url);
-            let parser = new DOMParser();
-            doc = parser.parseFromString(data, "text/html");
-        } catch (err) {
-            return null;
-        }
-        let definition = '';
-        const contents = doc.querySelectorAll('li > div.definition') || [];
-
-        for (const content of contents) {
-            definition += content.innerText;
-        }
-
-        let css = this.renderCSS();
-        return definition ? definition + css : null;
+        return word
+        // const base = 'https://www.vocabulary.com/dictionary/';
+        // const url = base + encodeURIComponent(word);
+        // let doc = '';
+        // try {
+        //     let data = await api.fetch(url);
+        //     let parser = new DOMParser();
+        //     doc = parser.parseFromString(data, "text/html");
+        // } catch (err) {
+        //     return null;
+        // }
+        // let definition = '';
+        // const contents = doc.querySelectorAll('li > div.definition') || [];
+        //
+        // for (const content of contents) {
+        //     definition += content.innerText;
+        // }
+        //
+        // let css = this.renderCSS();
+        // return definition ? definition + css : null;
 
         // this.word = word;
         // let deflection = await api.deinflect(word) || [];
