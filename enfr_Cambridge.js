@@ -37,29 +37,29 @@ class enen_Vocabulary{
         let notes = [];
 
         if (!word) return notes;
-        let result = {};
-        try {
-            result = JSON.parse(await api.getBuiltin('collins', word));
-        } catch (err) {
-            return [];
-        }
-
-        //get Collins Data
-        if (!result) return notes;
+        // let result = {};
+        // try {
+        //     result = JSON.parse(await api.getBuiltin('collins', word));
+        // } catch (err) {
+        //     return [];
+        // }
+        //
+        // //get Collins Data
+        // if (!result) return notes;
         let expression = word;
-        let reading = '';
-        if (result.readings && result.readings.length > 0) {
-            reading = `/${result.readings[0]}/`;
-            //let lable = ['UK','US'];
-            //for (const [idx,rd] of result.readings.entries()){
-            //    if (idx > 1) break;
-            //    reading = reading + `${lable[idx]}[${rd}]`;
-            //}
-        }
-        let extrainfo = result.star;
-        let defs = result.defs;
+        // let reading = '';
+        // if (result.readings && result.readings.length > 0) {
+        //     reading = `/${result.readings[0]}/`;
+        //     //let lable = ['UK','US'];
+        //     //for (const [idx,rd] of result.readings.entries()){
+        //     //    if (idx > 1) break;
+        //     //    reading = reading + `${lable[idx]}[${rd}]`;
+        //     //}
+        // }
+        // let extrainfo = result.star;
+        // let defs = result.defs;
 
-        extrainfo = extrainfo ? `<span class="star">${extrainfo}</span>` : '';
+        // extrainfo = extrainfo ? `<span class="star">${extrainfo}</span>` : '';
         let audios = [];
         audios[0] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=1`;
         audios[1] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=2`;
@@ -97,6 +97,12 @@ class enen_Vocabulary{
         } catch (err) {
             return null;
         }
+        
+        let reading = doc.querySelector('.ipa-section > div > span > h3') || '';
+        reading = reading ? reading.innerText : '';
+        
+        let extrainfo = '';
+
         
         let definitions = []
         const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
