@@ -108,8 +108,8 @@ class enen_Vocabulary{
             const innerText = content.children[0].innerText;
             let pos = innerText.split(' ')[0];
             let tran = innerText.replace(pos, '');
-            let pos = pos ? `<span class="pos">${pos}</span>` : '';
-            let tran = tran ? `<span class="eng_tran">${tran}</span>` : '';
+            pos = pos ? `<span class="pos">${pos}</span>` : '';
+            tran = tran ? `<span class="eng_tran">${tran}</span>` : '';
             let definition = `${pos}<span class="tran">${tran}</span>`;
             definitions.push(definition);
         }
