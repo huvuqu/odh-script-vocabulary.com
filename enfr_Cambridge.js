@@ -75,6 +75,7 @@ class enfr_Cambridge {
             definition += content.innerHTML;
         }
         let css = this.renderCSS();
+        definition = 'dummy test'
         return definition ? css + definition : null;
     }
 
