@@ -95,6 +95,7 @@ class enfr_Cambridge {
             definition += content.innerHTML;
         }
         let css = this.renderCSS();
+        console.log(definition)
 
         return definition ? css + definition : null;
     }
