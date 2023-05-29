@@ -50,33 +50,50 @@ class enfr_Cambridge {
     async findCambridge(word) {
         if (!word) return null;
 
-        let base = 'https://dictionary.cambridge.org/search/english-french/direct/?q=';
-        let url = base + encodeURIComponent(word);
+        // let base = 'https://dictionary.cambridge.org/search/english-french/direct/?q=';
+        // let url = base + encodeURIComponent(word);
+        // let doc = '';
+        // try {
+        //     let data = await api.fetch(url);
+        //     let parser = new DOMParser();
+        //     doc = parser.parseFromString(data, 'text/html');
+        // } catch (err) {
+        //     return null;
+        // }
+        //
+        // let contents = doc.querySelectorAll('.pr .dictionary') || [];
+        // if (contents.length == 0) return null;
+        //
+        // let definition = '';
+        // for (const content of contents) {
+        //     this.removeTags(content, '.extraexamps');
+        //     this.removeTags(content, '.definition-src');
+        //     this.removeTags(content, 'h2');
+        //     this.removeTags(content, '.d_br');
+        //     this.removeTags(content, '.freq.dfreq');
+        //     this.removelinks(content);
+        //     definition += content.innerHTML;
+        // }
+        // let css = this.renderCSS();
+        // definition = 'dummy test'
+        // return definition ? css + definition : null;
+        
+        const base = 'https://www.vocabulary.com/dictionary/';
+        const url = base + encodeURIComponent(word);
         let doc = '';
         try {
             let data = await api.fetch(url);
             let parser = new DOMParser();
-            doc = parser.parseFromString(data, 'text/html');
+            doc = parser.parseFromString(data, "text/html");
         } catch (err) {
             return null;
         }
-
-        let contents = doc.querySelectorAll('.pr .dictionary') || [];
-        if (contents.length == 0) return null;
-
         let definition = '';
+        const contents = doc.querySelectorAll('li > div.definition') || [];
+
         for (const content of contents) {
-            this.removeTags(content, '.extraexamps');
-            this.removeTags(content, '.definition-src');
-            this.removeTags(content, 'h2');
-            this.removeTags(content, '.d_br');
-            this.removeTags(content, '.freq.dfreq');
-            this.removelinks(content);
-            definition += content.innerHTML;
+            definition += content.innerText;
         }
-        // let css = this.renderCSS();
-        // definition = 'dummy test'
-        // return definition ? css + definition : null;
         return definition ? definition : null;
     }
 
