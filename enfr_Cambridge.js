@@ -94,7 +94,9 @@ class enfr_Cambridge {
         for (const content of contents) {
             definition += content.innerText;
         }
-        return definition ? definition : null;
+        let css = this.renderCSS();
+
+        return definition ? css + definition : null;
     }
 
     renderCSS() {
