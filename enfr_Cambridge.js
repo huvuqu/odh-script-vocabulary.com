@@ -86,12 +86,7 @@ class enen_Vocabulary{
         //         }
         //         definition += '</ul>';
         //     }
-        let definitions = [
-            '<span class="pos">n-test</span><span class="tran"><span class="eng_tran">test-eng</span><span class="chn_tran">test-chn</span></span>',
-            '<span class="pos">noun</span><span class="tran"><span class="eng_tran"> the act of conducting a controlled test or investigation</span></span>',
-            '<span class="pos">n-test2</span><span class="tran">test2</span>',
-            'test'
-        ]
+        let definitions = []
         
         const base = 'https://www.vocabulary.com/dictionary/';
         const url = base + encodeURIComponent(word);
