@@ -108,15 +108,15 @@ class enen_Vocabulary{
         desc_long = desc_long ? `<span class="eng_sent">${desc_long.innerText}</span>` : '';
         let definition = `<span class="tran">${desc_short}${desc_long}</span>`;
 
-        // sentences = doc.querySelectorAll('.sentence') || []
-        // if (sentences.length > 0) {
-        //     definition += '<ul class="sents">';
-        //     for (const sent of sentences) {
-        //         eng_sent = eng_sent ? `<span class='eng_sent'>${eng_sent.innerHTML}</span>` : '';
-        //         definition += `<li class='sent'>${eng_sent}</li>`;
-        //     }
-        //     definition += '</ul>';
-        // }
+        sentences = document.querySelectorAll('.sentence') || []
+        if (sentences.length > 0) {
+            definition += '<ul class="sents">';
+            for (let eng_sent of sentences) {
+                eng_sent = eng_sent ? `<span class='eng_sent'>${eng_sent.innerHTML}</span>` : '';
+                definition += `<li class='sent'>${eng_sent}</li>`;
+            }
+            definition += '</ul>';
+        }
         
         
         
