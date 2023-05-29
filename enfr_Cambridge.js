@@ -1,5 +1,5 @@
 /* global api */
-class enfr_Cambridge {
+class enen_Vocabulary{
     constructor(options) {
         this.options = options;
         this.maxexample = 2;
@@ -7,11 +7,9 @@ class enfr_Cambridge {
     }
 
     async displayName() {
-        let locale = await api.locale();
-        if (locale.indexOf('CN') != -1) return '剑桥英法词典';
-        if (locale.indexOf('TW') != -1) return '剑桥英法词典';
-        return 'Cambridge EN->FR Dictionary';
+        return 'Vocabulary EN->EN Dictionary';
     }
+
 
     setOptions(options) {
         this.options = options;
@@ -20,98 +18,77 @@ class enfr_Cambridge {
 
     async findTerm(word) {
         this.word = word;
-        return await this.findCambridge(word);
+        let list = [];
+        let word_stem = await api.deinflect(word) || [];
+        if (word.toLowerCase() != word) {
+            let lowercase = word.toLowerCase();
+            let lowercase_stem = await api.deinflect(lowercase) || [];
+            list = [word, word_stem, lowercase, lowercase_stem];
+        } else {
+            list = [word, word_stem];
+        }
+        let promises = list.map((item) => this.findCollins(item));
+        let results = await Promise.all(promises);
+        return [].concat(...results).filter(x => x);
     }
 
-    removeTags(elem, name) {
-        let tags = elem.querySelectorAll(name);
-        tags.forEach(x => {
-            x.outerHTML = '';
-        });
-    }
-
-    removelinks(elem) {
-        let tags = elem.querySelectorAll('a');
-        tags.forEach(x => {
-            x.outerHTML = x.innerText;
-        });
-
-        tags = elem.querySelectorAll('h2');
-        tags.forEach(x => {
-            x.outerHTML = `<div class='head2'>${x.innerHTML}</div>`;
-        });
-
-        tags = elem.querySelectorAll('h3');
-        tags.forEach(x => {
-            x.outerHTML = `<div class='head3'>${x.innerHTML}</div>`;
-        });
-    }
-
-    async findCambridge(word) {
-        if (!word) return null;
+    async findCollins(word) {
+        const maxexample = this.maxexample;
         let notes = [];
+
+        if (!word) return notes;
+        let result = {};
+        try {
+            result = JSON.parse(await api.getBuiltin('collins', word));
+        } catch (err) {
+            return [];
+        }
+
+        //get Collins Data
+        if (!result) return notes;
         let expression = word;
-        let reading = 'reading';
-        // let base = 'https://dictionary.cambridge.org/search/english-french/direct/?q=';
-        // let url = base + encodeURIComponent(word);
-        // let doc = '';
-        // try {
-        //     let data = await api.fetch(url);
-        //     let parser = new DOMParser();
-        //     doc = parser.parseFromString(data, 'text/html');
-        // } catch (err) {
-        //     return null;
-        // }
-        //
-        // let contents = doc.querySelectorAll('.pr .dictionary') || [];
-        // if (contents.length == 0) return null;
-        //
-        // let definition = '';
-        // for (const content of contents) {
-        //     this.removeTags(content, '.extraexamps');
-        //     this.removeTags(content, '.definition-src');
-        //     this.removeTags(content, 'h2');
-        //     this.removeTags(content, '.d_br');
-        //     this.removeTags(content, '.freq.dfreq');
-        //     this.removelinks(content);
-        //     definition += content.innerHTML;
-        // }
-        // let css = this.renderCSS();
-        // definition = 'dummy test'
-        // return definition ? css + definition : null;
-        let extrainfo = 'extrainfo';
+        let reading = '';
+        if (result.readings && result.readings.length > 0) {
+            reading = `/${result.readings[0]}/`;
+            //let lable = ['UK','US'];
+            //for (const [idx,rd] of result.readings.entries()){
+            //    if (idx > 1) break;
+            //    reading = reading + `${lable[idx]}[${rd}]`;
+            //}
+        }
+        let extrainfo = result.star;
+        let defs = result.defs;
+
+        extrainfo = extrainfo ? `<span class="star">${extrainfo}</span>` : '';
         let audios = [];
         audios[0] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=1`;
         audios[1] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=2`;
 
-        const base = 'https://www.vocabulary.com/dictionary/';
-        const url = base + encodeURIComponent(word);
-        let doc = '';
-        try {
-            let data = await api.fetch(url);
-            let parser = new DOMParser();
-                doc = parser.parseFromString(data, "text/html");
-        } catch (err) {
-            return null;
+        let definitions = [];
+        for (const def of defs) {
+            let definition = '';
+            let pos = def.pos_en;
+            let chn_tran = def.def_cn;
+            let eng_tran = def.def_en;
+            pos = pos ? `<span class="pos">${pos}</span>` : '';
+            chn_tran = chn_tran ? `<span class="chn_tran">${chn_tran}</span>` : '';
+            eng_tran = eng_tran ? `<span class="eng_tran">${eng_tran.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`)}</span>` : '';
+            definition = `${pos}<span class="tran">${eng_tran}${chn_tran}</span>`;
+
+            // make exmaple sentence segement
+            if (def.ext && def.ext.length > 0 && maxexample > 0) {
+                definition += '<ul class="sents">';
+                for (const [idx, ex] of def.ext.entries()) {
+                    if (idx > maxexample - 1) break; // to control only n example sentences defined in option.
+                    let chn_sent = ex.ext_cn;
+                    let eng_sent = ex.ext_en.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`);
+                    definition += `<li class='sent'><span class='eng_sent'>${eng_sent}</span><span class='chn_sent'>${chn_sent}</span></li>`;
+                }
+                definition += '</ul>';
+            }
+
+            definitions.push(definition);
         }
-
-        const desc_short =  document.querySelector('p.short').innerText;
-        const desc_long =  document.querySelector('p.long').innerText;
-
-        let definitions = [ 'test', 'test2' ];
-        // const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
-        //
-        // for (const content of contents) {
-        //     // this.removeTags(content, '.expand-text');
-        //     // this.removeTags(content, '.hide-text');
-        //     // this.removeTags(content, '.expand-text');
-        //     // definition += content.innerHTML;
-        //     let pos = content.querySelector('div.pos-icon').title
-        //     pos = pos ? `<span class="pos">${pos}</span>` : '';
-        //
-        // }
-        // let css = this.renderCSS();
-        // console.log(definition)
 
         let css = this.renderCSS();
         notes.push({
@@ -122,6 +99,8 @@ class enfr_Cambridge {
             definitions,
             audios
         });
+
+        return notes;
     }
 
     renderCSS() {
