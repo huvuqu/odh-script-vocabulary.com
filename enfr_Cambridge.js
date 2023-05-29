@@ -108,12 +108,18 @@ class enen_Vocabulary{
         desc_long = desc_long ? `<span class="eng_sent">${desc_long.innerText}</span>` : '';
         let definition = `<span class="tran">${desc_short}<br>${desc_long}</span>`;
 
-        let sentences = doc.querySelectorAll('.sentence') || []
-        if (sentences.length > 0) {
+        const sentence_api = `https://corpus.vocabulary.com/api/1.0/examples.json?maxResults=3&query=${encodeURIComponent(word)}&startOffset=0&domain=F`
+        try {
+            result = JSON.parse(await api.fetch(sentence_api));
+        } catch (err) {
+            return notes;
+        }
+        // get result.result.sentences
+        let sentences = result.result.sentences;
+        if (sentences && sentences.length > 0) {
             definition += '<ul class="sents">';
             for (let ex of sentences) {
-                let eng_sent = ex.innerText;
-                definition += `<li class='sent'><span class='eng_sent'>${eng_sent}</span></li>`;
+                definition += `<li class='sent'><span class='eng_sent'>${ex.sentence}</span></li>`;
             }
             definition += '</ul>';
         }
