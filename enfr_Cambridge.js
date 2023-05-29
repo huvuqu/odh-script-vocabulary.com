@@ -90,6 +90,25 @@ class enen_Vocabulary{
             definitions.push(definition);
         }
 
+// My code
+        let definitions = [];
+
+        const base = 'https://www.vocabulary.com/dictionary/';
+        const url = base + encodeURIComponent(word);
+        let doc = '';
+        try {
+            let data = await api.fetch(url);
+            let parser = new DOMParser();
+            doc = parser.parseFromString(data, "text/html");
+        } catch (err) {
+            return null;
+        }
+        const contents = doc.querySelectorAll('li > div.definition') || [];
+        for (const content of contents) {
+            definition = content.innerHTML;
+            definitions.push(definition);
+        }
+// End of my code
         let css = this.renderCSS();
         notes.push({
             css,
