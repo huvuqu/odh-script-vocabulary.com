@@ -102,8 +102,8 @@ class enen_Vocabulary{
         reading = reading ? reading.innerText : '';
         
         let extrainfo = '';
-        let desc_short = doc.querySelector(p'.short') || '';
-        let desc_long = doc.querySelector(p'.long') || '';
+        let desc_short = doc.querySelector('p.short') || '';
+        let desc_long = doc.querySelector('p.long') || '';
         desc_short = desc_short ? `<span class="eng_sent">${desc_short.innerText}</span>\n` : '';
         desc_long = desc_long ? `<span class="eng_sent">${desc_long.innerText}</span>` : '';
         let definition = desc_short + desc_long;
