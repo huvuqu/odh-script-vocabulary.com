@@ -111,6 +111,20 @@ class enen_Vocabulary{
             pos = pos ? `<span class="pos">${pos}</span>` : '';
             tran = tran ? `<span class="eng_tran">${tran}</span>` : '';
             let definition = `${pos}<span class="tran">${tran}</span>`;
+            
+            //example
+            let examples =contents[1].children[1].querySelectorAll('.example') || [];
+            if (examples.length > 0) {
+                definition += '<ul class="sents">';
+                for (cost ex of examples) {
+                    let eng_sent = ex.children[0].innerText;
+                    definition += `<li class='sent'><span class='eng_sent'>${eng_sent}</span></li>`;
+                }
+                definition += '</ul>';
+            }
+
+
+
             definitions.push(definition);
         }
         // definitions.push(definition);
