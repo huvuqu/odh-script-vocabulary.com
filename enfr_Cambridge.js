@@ -91,6 +91,28 @@ class enen_Vocabulary{
             '<span class="pos">n-test2</span><span class="tran">test2</span>',
             'test'
         ]
+        
+        const base = 'https://www.vocabulary.com/dictionary/';
+        const url = base + encodeURIComponent(word);
+        let doc = '';
+        try {
+            let data = await api.fetch(url);
+            let parser = new DOMParser();
+            doc = parser.parseFromString(data, "text/html");
+        } catch (err) {
+            return null;
+        }
+        
+        const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
+        for (const content of contents) {
+            const innerText = content.children[0].innerText;
+            let pos = innerText.split(' ')[0];
+            let tran = innerText.replace(pos, '');
+            let pos = pos ? `<span class="pos">${pos}</span>` : '';
+            let tran = tran ? `<span class="eng_tran">${tran}</span>` : '';
+            let definition = `${pos}<span class="tran">${tran}</span>`;
+            definitions.push(definition);
+        }
 
         // definitions.push(definition);
         
