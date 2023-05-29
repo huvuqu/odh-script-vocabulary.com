@@ -74,9 +74,10 @@ class enfr_Cambridge {
             this.removelinks(content);
             definition += content.innerHTML;
         }
-        let css = this.renderCSS();
-        definition = 'dummy test'
-        return definition ? css + definition : null;
+        // let css = this.renderCSS();
+        // definition = 'dummy test'
+        // return definition ? css + definition : null;
+        return definition ? definition : null;
     }
 
     renderCSS() {
