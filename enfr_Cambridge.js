@@ -86,13 +86,12 @@ class enen_Vocabulary{
         //         }
         //         definition += '</ul>';
         //     }
-            let definitions = [
-                '<span class="poss">n-test</span><span class="tran">test</span>',
-                '<span class="poss">n-test2</span><span class="tran">test2</span>'
-            ]
+        let definitions = [
+            '<span class="poss">n-test</span><span class="tran">test</span>',
+            '<span class="poss">n-test2</span><span class="tran">test2</span>'
+        ]
 
-            definitions.push(definition);
-        }
+        definitions.push(definition);
         
         let css = this.renderCSS();
         notes.push({
