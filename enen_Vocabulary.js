@@ -1,4 +1,4 @@
-Class enen_Vocabulary{
+class enen_Vocabulary{
     constructor() {
         this.word = '';
     }
@@ -58,4 +58,6 @@ Class enen_Vocabulary{
             .phrase-head {vertical-align: middle;color: #1683ea;font-weight: bold;}
             .trans {color: #5079bb;}
             </style>`;
+                return css;
+    }
 }
