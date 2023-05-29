@@ -1,5 +1,5 @@
 /* global api, hash */
-class enen_Vocabulary {
+class encn_Oxford {
     constructor(options) {
         this.token = '';
         this.gtk = '';
@@ -9,7 +9,7 @@ class enen_Vocabulary {
     }
 
     async displayName() {
-        return 'Vocabulary EN->EN Dictionary';
+        return 'Oxford EN->EN Dictionary XX';
     }
 
 
