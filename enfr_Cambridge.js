@@ -64,28 +64,32 @@ class enen_Vocabulary{
         audios[0] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=1`;
         audios[1] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=2`;
 
-        let definitions = [];
-        for (const def of defs) {
-            let definition = '';
-            let pos = def.pos_en;
-            let chn_tran = def.def_cn;
-            let eng_tran = def.def_en;
-            pos = pos ? `<span class="pos">${pos}</span>` : '';
-            chn_tran = chn_tran ? `<span class="chn_tran">${chn_tran}</span>` : '';
-            eng_tran = eng_tran ? `<span class="eng_tran">${eng_tran.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`)}</span>` : '';
-            definition = `${pos}<span class="tran">${eng_tran}${chn_tran}</span>`;
-
-            // make exmaple sentence segement
-            if (def.ext && def.ext.length > 0 && maxexample > 0) {
-                definition += '<ul class="sents">';
-                for (const [idx, ex] of def.ext.entries()) {
-                    if (idx > maxexample - 1) break; // to control only n example sentences defined in option.
-                    let chn_sent = ex.ext_cn;
-                    let eng_sent = ex.ext_en.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`);
-                    definition += `<li class='sent'><span class='eng_sent'>${eng_sent}</span><span class='chn_sent'>${chn_sent}</span></li>`;
-                }
-                definition += '</ul>';
-            }
+        // let definitions = [];
+        // for (const def of defs) {
+        //     let definition = '';
+        //     let pos = def.pos_en;
+        //     let chn_tran = def.def_cn;
+        //     let eng_tran = def.def_en;
+        //     pos = pos ? `<span class="pos">${pos}</span>` : '';
+        //     chn_tran = chn_tran ? `<span class="chn_tran">${chn_tran}</span>` : '';
+        //     eng_tran = eng_tran ? `<span class="eng_tran">${eng_tran.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`)}</span>` : '';
+        //     definition = `${pos}<span class="tran">${eng_tran}${chn_tran}</span>`;
+        //
+        //     // make exmaple sentence segement
+        //     if (def.ext && def.ext.length > 0 && maxexample > 0) {
+        //         definition += '<ul class="sents">';
+        //         for (const [idx, ex] of def.ext.entries()) {
+        //             if (idx > maxexample - 1) break; // to control only n example sentences defined in option.
+        //             let chn_sent = ex.ext_cn;
+        //             let eng_sent = ex.ext_en.replace(RegExp(expression, 'gi'),`<b>${expression}</b>`);
+        //             definition += `<li class='sent'><span class='eng_sent'>${eng_sent}</span><span class='chn_sent'>${chn_sent}</span></li>`;
+        //         }
+        //         definition += '</ul>';
+        //     }
+            let definitions = [
+                '<span class="poss">n-test</span><span class="tran">test</span>',
+                '<span class="poss">n-test2</span><span class="tran">test2</span>'
+            ]
 
             definitions.push(definition);
         }
