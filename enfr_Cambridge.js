@@ -80,6 +80,7 @@ class enfr_Cambridge {
         // definition = 'dummy test'
         // return definition ? css + definition : null;
         let extrainfo = 'extrainfo';
+        let audios = [];
         audios[0] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=1`;
         audios[1] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=2`;
 
