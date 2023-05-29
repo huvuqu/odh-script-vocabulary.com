@@ -92,7 +92,7 @@ class enfr_Cambridge {
         const contents = doc.querySelectorAll('li > div.definition') || [];
 
         for (const content of contents) {
-            definition += content.innerText;
+            definition += content.innerHTML;
         }
         let css = this.renderCSS();
 
