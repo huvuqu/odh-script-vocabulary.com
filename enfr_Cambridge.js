@@ -86,7 +86,6 @@ class enen_Vocabulary{
         //         }
         //         definition += '</ul>';
         //     }
-        let definitions = []
         
         const base = 'https://www.vocabulary.com/dictionary/';
         const url = base + encodeURIComponent(word);
@@ -99,6 +98,7 @@ class enen_Vocabulary{
             return null;
         }
         
+        let definitions = []
         const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
         for (const content of contents) {
             let innerText = content.children[0].innerText;
@@ -113,17 +113,15 @@ class enen_Vocabulary{
             let definition = `${pos}<span class="tran">${tran}</span>`;
             
             //example
-            let examples =contents[1].children[1].querySelectorAll('.example') || [];
+            let examples =content.querySelectorAll('.example') || [];
             if (examples.length > 0) {
                 definition += '<ul class="sents">';
-                for (cost ex of examples) {
-                    let eng_sent = ex.children[0].innerText;
+                for (const ex of examples) {
+                    let eng_sent = ex.innerText;
                     definition += `<li class='sent'><span class='eng_sent'>${eng_sent}</span></li>`;
                 }
                 definition += '</ul>';
             }
-
-
 
             definitions.push(definition);
         }
