@@ -102,12 +102,13 @@ class enen_Vocabulary{
         const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
         for (const content of contents) {
             const innerText = content.children[0].innerText;
-            // let pos = innerText.split(' ')[0];
-            let tran = innerText.replace(pos, '');
-            // pos = pos ? `<span class="pos">${pos}</span>` : '';
+            const words = innerText.split(' ');
+            const pos = words[0];
+            const tran = words.slice(1).join(' ');
+            
+            pos = pos ? `<span class="pos">${pos}</span>` : '';
             tran = tran ? `<span class="eng_tran">${tran}</span>` : '';
-            // let definition = `${pos}<span class="tran">${tran}</span>`;
-            let definition = `<span class="tran">${tran}</span>`;
+            let definition = `${pos}<span class="tran">${tran}</span>`;
             definitions.push(definition);
         }
 
