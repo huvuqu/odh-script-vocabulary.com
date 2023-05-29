@@ -102,9 +102,25 @@ class enen_Vocabulary{
         reading = reading ? reading.innerText : '';
         
         let extrainfo = '';
+        let desc_short = doc.querySelector(p'.short') || '';
+        let desc_long = doc.querySelector(p'.long') || '';
+        desc_short = desc_short ? `<span class="eng_sent">${desc_short.innerText}</span>\n` : '';
+        desc_long = desc_long ? `<span class="eng_sent">${desc_long.innerText}</span>` : '';
+        let definition = desc_short + desc_long;
 
+        sentences = doc.querySelectorAll('.sentence') || []
+        if (sentences.length > 0) {
+            definition += '<ul class="sents">';
+            for (const sent of sentences) {
+                eng_sent = eng_sent ? `<span class='eng_sent'>${eng_sent.innerHTML}</span>` : '';
+                definition += `<li class='sent'>${eng_sent}</li>`;
+            }
+            definition += '</ul>';
+        }
         
-        let definitions = []
+        
+        
+        let definitions = [definition];
         const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
         for (const content of contents) {
             let innerText = content.children[0].innerText;
