@@ -89,7 +89,7 @@ class enfr_Cambridge {
             return null;
         }
         let definition = '';
-        const contents = doc.querySelectorAll('li > div.definition') || [];
+        const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
 
         for (const content of contents) {
             definition += content.innerHTML;
