@@ -102,16 +102,15 @@ class enen_Vocabulary{
         const contents = doc.querySelectorAll('div.word-definitions > ol > li') || [];
         for (const content of contents) {
             const innerText = content.children[0].innerText;
-            const words = innerText.split(' ');
-            const pos = words[0];
-            const tran = words.slice(1).join(' ');
+            let words = innerText.split(' ');
+            let pos = words[0];
+            let tran = words.slice(1).join(' ');
             
             pos = pos ? `<span class="pos">${pos}</span>` : '';
             tran = tran ? `<span class="eng_tran">${tran}</span>` : '';
             let definition = `${pos}<span class="tran">${tran}</span>`;
             definitions.push(definition);
         }
-
         // definitions.push(definition);
         
         let css = this.renderCSS();
