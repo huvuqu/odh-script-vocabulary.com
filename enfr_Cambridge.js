@@ -112,7 +112,7 @@ class enen_Vocabulary{
         if (sentences.length > 0) {
             definition += '<ul class="sents">';
             for (let eng_sent of sentences) {
-                eng_sent = eng_sent ? `<span class='eng_sent'>${eng_sent.innerHTML}</span>` : '';
+                eng_sent = eng_sent ? `<span class='eng_sent'>${eng_sent.innerText}</span>` : '';
                 definition += `<li class='sent'>${eng_sent}</li>`;
             }
             definition += '</ul>';
