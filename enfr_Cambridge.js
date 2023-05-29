@@ -109,16 +109,16 @@ class enen_Vocabulary{
         let definition = `<span class="tran">${desc_short}${desc_long}</span>`;
 
         let sentences = doc.querySelectorAll('.sentence') || []
-        // if (sentences.length > 0) {
-        //     definition += '<ul class="sents">';
+        if (sentences.length > 0) {
+            definition += '<ul class="sents">';
         //     for (const ex of sentences) {
         //         // let eng_sent = ex.innerText;
         //         // eng_sent = eng_sent ? `<span class='eng_sent'>${eng_sent.innerText}</span>` : '';
         //         // definition += `<li class='sent'>${eng_sent}</li>`;
         //         definition += `<li class='sent'>TESST</li>`;
         //     }
-        //     definition += '</ul>';
-        // }
+            definition += '</ul>';
+        }
         
         
         
