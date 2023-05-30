@@ -98,15 +98,16 @@ class enen_Vocabulary{
             return null;
         }
         
-        let reading = doc.querySelectorAll('.ipa-section > div > span > h3') || '';
-        let ipa='';
-        if (reading.length > 0) {
-            for (const r of reading) {
-                ipa += r.innerText;
+        let ipa = doc.querySelectorAll('.ipa-section > div > span > h3') || '';
+        let reading = 'no ipa'; 
+        if (ipa.length > 0) {
+            reading = ''
+            for (const i of ipa) {
+                reading += i.innerText;
             }
         }
 
-        reading = reading ? reading.innerText : '';
+
         let extrainfo = '';
         let desc_short = doc.querySelector('p.short') || '';
         let desc_long = doc.querySelector('p.long') || '';
@@ -165,7 +166,7 @@ class enen_Vocabulary{
         notes.push({
             css,
             expression,
-            ipa,
+            reading,
             extrainfo,
             definitions,
             audios
