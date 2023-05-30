@@ -61,8 +61,8 @@ class enen_Vocabulary{
 
         // extrainfo = extrainfo ? `<span class="star">${extrainfo}</span>` : '';
         let audios = [];
-        audios[0] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=1`;
-        audios[1] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=2`;
+        audios[0] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=2`;
+        audios[1] = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(expression)}&type=1`;
 
         // let definitions = [];
         // for (const def of defs) {
@@ -98,9 +98,15 @@ class enen_Vocabulary{
             return null;
         }
         
-        let reading = doc.querySelector('.ipa-section > div > span > h3') || '';
+        let reading = doc.querySelectorAll('.ipa-section > div > span > h3') || '';
+        let ipa='';
+        if (reading.length > 0) {
+            for (const r of reading) {
+                ipa += r.innerText;
+            }
+        }
+
         reading = reading ? reading.innerText : '';
-        
         let extrainfo = '';
         let desc_short = doc.querySelector('p.short') || '';
         let desc_long = doc.querySelector('p.long') || '';
@@ -159,7 +165,7 @@ class enen_Vocabulary{
         notes.push({
             css,
             expression,
-            reading,
+            ipa,
             extrainfo,
             definitions,
             audios
