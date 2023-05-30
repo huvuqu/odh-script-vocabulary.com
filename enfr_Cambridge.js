@@ -113,7 +113,7 @@ class enen_Vocabulary{
         let desc_short = doc.querySelector('p.short') || '';
         let desc_long = doc.querySelector('p.long') || '';
         desc_short = desc_short ? `<span class="eng_sent">${desc_short.innerText}</span>` : '';
-        desc_long = desc_long ? `<span class="eng_sent">${desc_long.innerText}</span>` : '';
+        desc_long = desc_long ? `<span class="eng_sent desc_long">${desc_long.innerText}</span>` : '';
         let definition = `<span class="tran">${desc_short}<br>${desc_long}</span>`;
 
         // const sentence_api = `https://corpus.vocabulary.com/api/1.0/examples.json?maxResults=3&query=${encodeURIComponent(word)}&startOffset=0&domain=F`
@@ -189,6 +189,7 @@ class enen_Vocabulary{
                 li.sent  {margin:0; padding:0;}
                 span.eng_sent {margin-right:5px;}
                 span.chn_sent {color:#0d47a1;}
+                span.desc_long {font-size:0.8em; color:#333;}
             </style>`;
         return css;
     }
